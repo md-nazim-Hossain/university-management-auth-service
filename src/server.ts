@@ -9,7 +9,7 @@ async function main() {
       console.log(`Server app listening on port ${config.port}`);
     });
   } catch (error: Error | unknown) {
-    console.log(
+    console.error(
       'Failed To connected database',
       error instanceof Error ? error.message : error
     );
