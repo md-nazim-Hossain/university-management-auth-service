@@ -4,17 +4,17 @@ import { User } from './user.model';
 import { generatedUserId } from './user.utils';
 import ApiError from '../../../errors/ApiError';
 
-const createUser = async (data: IUser): Promise<IUser | null> => {
+const createUser = async (payload: IUser): Promise<IUser | null> => {
   //auto generated incremented id
   const id = await generatedUserId();
-  data.id = id;
+  payload.id = id;
 
   // default password
-  if (!data.password) {
-    data.password = config.default_user_pass as string;
+  if (!payload.password) {
+    payload.password = config.default_user_pass as string;
   }
 
-  const userCreated = await User.create(data);
+  const userCreated = await User.create(payload);
   if (!userCreated) {
     throw new ApiError(400, 'Failed to created users');
   }

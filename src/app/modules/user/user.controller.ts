@@ -6,7 +6,7 @@ const createdUsers: RequestHandler = async (req, res, next) => {
     const result = await UserService.createUser(user);
     res.status(201).json({
       success: true,
-      message: 'User created Successfully',
+      message: 'User created successfully',
       data: result,
     });
   } catch (error) {
