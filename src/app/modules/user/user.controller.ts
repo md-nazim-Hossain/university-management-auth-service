@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
 import { UserService } from './user.service';
 import catchAsync from '../../../shared/catchAsync';
@@ -15,7 +17,6 @@ const createdUsers = catchAsync(
       data: result,
       statusCode: httpStatus.OK,
     });
-    next();
   }
 );
 
