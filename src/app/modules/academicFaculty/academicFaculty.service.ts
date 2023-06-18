@@ -20,14 +20,14 @@ const getAllFaculty = async (
   filters: IAcademicFacultyFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicFaculty[]>> => {
-  const { faculty, ...filtersData } = filters;
+  const { searchTerm, ...filtersData } = filters;
 
   const andConditions = [];
-  if (faculty) {
+  if (searchTerm) {
     andConditions.push({
       $or: AcademicFacultyConstant.academicFacultySearchFields.map(field => ({
         [field]: {
-          $regex: faculty,
+          $regex: searchTerm,
           $options: 'i',
         },
       })),

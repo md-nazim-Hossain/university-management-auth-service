@@ -16,9 +16,25 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, 'password is required'],
     },
+    student: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'student is required'],
+      ref: 'Student',
+    },
+    // faculty: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Faculty',
+    // },
+    // admin: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'admin',
+    // },
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
 

@@ -10,5 +10,5 @@ export type AcademicFacultyModel = Model<
 >;
 
 export type IAcademicFacultyFilters = {
-  faculty?: string;
+  searchTerm?: string;
 };

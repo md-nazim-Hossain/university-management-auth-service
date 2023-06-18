@@ -1,5 +1,5 @@
 const academicFacultySearchFields = ['title'];
-const academicFacultyFiltersFields = ['faculty', 'title'];
+const academicFacultyFiltersFields = ['searchTerm', 'title'];
 
 export const AcademicFacultyConstant = {
   academicFacultyFiltersFields,
