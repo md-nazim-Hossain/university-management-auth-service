@@ -65,7 +65,7 @@ const getAllAcademicDepartment = async (
     .limit(limit)
     .populate('academicFaculty');
 
-  const total = await AcademicDepartment.countDocuments();
+  const total = await AcademicDepartment.countDocuments(whereConditions);
 
   return {
     meta: {

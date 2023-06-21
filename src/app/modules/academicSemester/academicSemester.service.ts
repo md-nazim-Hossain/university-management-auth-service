@@ -74,7 +74,7 @@ const getSemesters = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-  const total = await AcademicSemester.countDocuments();
+  const total = await AcademicSemester.countDocuments(whereConditions);
 
   return {
     meta: {
@@ -96,7 +96,7 @@ const getSemesterById = async (
 const updateSemester = async (
   id: string,
   payload: Partial<IAcademicSemester>
-) => {
+): Promise<IAcademicSemester | null> => {
   if (
     payload?.title &&
     payload?.code &&

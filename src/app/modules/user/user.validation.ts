@@ -45,41 +45,20 @@ const createStudentZodSchema = z.object({
       emergencyContact: z.string({
         required_error: 'Emergency contact is required',
       }),
-      guardian: z.object(
-        {
-          type: z.object({
-            father: z
-              .object({
-                name: z.string({
-                  required_error: 'Father name is required',
-                }),
-                phone: z.string({
-                  required_error: 'Father phone is required',
-                }),
-                occupation: z.string({
-                  required_error: 'Father occupation is required',
-                }),
-              })
-              .optional(),
-            mother: z
-              .object({
-                name: z.string({
-                  required_error: 'Mother name is required',
-                }),
-                phone: z.string({
-                  required_error: 'Mother phone is required',
-                }),
-                occupation: z.string({
-                  required_error: 'Mother occupation is required',
-                }),
-              })
-              .optional(),
-          }),
-        },
-        {
-          required_error: 'Guardian is required',
-        }
-      ),
+      guardian: z.object({
+        name: z.string({
+          required_error: 'Guardian name is required',
+        }),
+        phone: z.string({
+          required_error: 'Guardian phone is required',
+        }),
+        occupation: z.string({
+          required_error: 'Guardian occupation is required',
+        }),
+        relation: z.string({
+          required_error: 'Guardian relation is required',
+        }),
+      }),
       profileImage: z.string().optional(),
       academicFaculty: z.string({
         required_error: 'Academic faculty is required',

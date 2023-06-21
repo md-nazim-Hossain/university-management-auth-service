@@ -68,30 +68,21 @@ export const studentSchema = new Schema<IStudent, StudentModel>(
       required: [true, 'emergency contact is required'],
     },
     guardian: {
-      required: [true, 'guardian is required'],
-      type: {
-        father: {
-          name: {
-            type: String,
-          },
-          phone: {
-            type: String,
-          },
-          occupation: {
-            type: String,
-          },
-        },
-        mother: {
-          name: {
-            type: String,
-          },
-          phone: {
-            type: String,
-          },
-          occupation: {
-            type: String,
-          },
-        },
+      name: {
+        type: String,
+        required: [true, 'guardian name is required'],
+      },
+      phone: {
+        type: String,
+        required: [true, 'guardian phone is required'],
+      },
+      occupation: {
+        type: String,
+        required: [true, 'guardian occupation is required'],
+      },
+      relation: {
+        type: String,
+        required: [true, 'guardian relation is required'],
       },
     },
 

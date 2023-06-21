@@ -27,24 +27,24 @@ export type IStudent = {
 };
 
 export type IGuardian = {
-  type: {
-    father?: {
-      name: string;
-      phone: string;
-      occupation: string;
-    };
-    mother?: {
-      name: string;
-      phone: string;
-      occupation: string;
-    };
-  };
+  relation: string;
+  name: string;
+  phone: string;
+  occupation: string;
 };
 
 export type IStudentName = {
   firstName: string;
   middleName?: string;
   lastName: string;
+};
+
+export type IStudentFilters = {
+  searchTerm?: string;
+  id?: string;
+  contactNo?: string;
+  email?: string;
+  bloodGroup?: string;
 };
 
 export type StudentModel = Model<IStudent, Record<string, unknown>>;
