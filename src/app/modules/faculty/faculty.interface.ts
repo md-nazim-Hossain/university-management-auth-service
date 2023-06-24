@@ -1,16 +1,15 @@
 import { Model, Types } from 'mongoose';
+import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
+import { IAcademicDepartment } from '../academicDepartment/academicDepartment.interface';
 import {
   IGuardian,
   IUserBloodGroup,
   IUserGender,
 } from '../user/user.interface';
-import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
-import { IAcademicDepartment } from '../academicDepartment/academicDepartment.interface';
-import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
 
-export type IStudent = {
+export type IFaculty = {
   id: string;
-  name: IStudentName;
+  name: IFacultyName;
   dateOfBirth: string;
   gender: IUserGender;
   bloodGroup?: IUserBloodGroup;
@@ -24,19 +23,19 @@ export type IStudent = {
   contact: string;
   emergencyContact: string;
   guardian: IGuardian;
+  designation: string;
   profileImage?: string;
   academicFaculty: Types.ObjectId | IAcademicFaculty;
   academicDepartment: Types.ObjectId | IAcademicDepartment;
-  academicSemester: Types.ObjectId | IAcademicSemester;
 };
 
-export type IStudentName = {
+export type IFacultyName = {
   firstName: string;
   middleName?: string;
   lastName: string;
 };
 
-export type IStudentFilters = {
+export type IFacultyFilters = {
   searchTerm?: string;
   id?: string;
   contactNo?: string;
@@ -44,4 +43,4 @@ export type IStudentFilters = {
   bloodGroup?: string;
 };
 
-export type StudentModel = Model<IStudent, Record<string, unknown>>;
+export type FacultyModel = Model<IFaculty, Record<string, unknown>>;

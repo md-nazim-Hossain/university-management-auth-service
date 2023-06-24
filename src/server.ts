@@ -24,6 +24,7 @@ async function main() {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   process.on('unhandledRejection', (error: any) => {
     console.log(
       'Unhandled Rejection is detected we are closing server ....',
