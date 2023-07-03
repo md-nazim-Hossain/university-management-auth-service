@@ -2,30 +2,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
-import { FacultyService } from './faculty.service';
 import sendResponse from '../../../shared/sendResponse';
-import { IFaculty } from './faculty.interface';
+
 import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
-import { FacultyConstant } from './faculty.constant';
 import { paginationFields } from '../../../constants/paginationConst';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { IAdmin } from './admin.interfcae';
+import { AdminConstant } from './admin.constant';
+import { AdminService } from './admin.service';
 
-const getAllFaculty = catchAsync(
+const getAllAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const filters = pick(req.query, FacultyConstant.facultyFiltersFields);
+    const filters = pick(req.query, AdminConstant.adminFiltersFields);
     const paginationOptions: IPaginationOptions = pick(
       req.query,
       paginationFields
     );
-    const result = await FacultyService.getAllFaculty(
-      filters,
-      paginationOptions
-    );
+    const result = await AdminService.getAllAdmin(filters, paginationOptions);
 
-    sendResponse<IFaculty[]>(res, {
+    sendResponse<IAdmin[]>(res, {
       success: true,
-      message: 'Get All Faculty retrieved successfully',
+      message: 'Get All admin retrieved successfully',
       meta: result?.meta,
       data: result?.data,
       statusCode: httpStatus.OK,
@@ -33,51 +31,51 @@ const getAllFaculty = catchAsync(
   }
 );
 
-const getFacultyById = catchAsync(
+const getAdminById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await FacultyService.getFacultyById(req.params.id);
-    sendResponse<IFaculty>(res, {
+    const result = await AdminService.getAdminById(req.params.id);
+    sendResponse<IAdmin>(res, {
       success: true,
-      message: 'Get Faculty  retrieved successfully by id',
+      message: 'Get admin by id retrieved successfully',
       data: result,
       statusCode: httpStatus.OK,
     });
   }
 );
 
-const updateFaculty = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    const { ...updatedFacultyData } = req.body;
-    const result = await FacultyService.updateFaculty(id, updatedFacultyData);
-
-    sendResponse<IFaculty>(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: 'Faculty updated successfully by id',
-      data: result,
-    });
-  }
-);
-
-const deleteFaculty = catchAsync(
+const updateAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
+    const { ...updatedAdminData } = req.body;
+    const result = await AdminService.updateAdmin(id, updatedAdminData);
 
-    const result = await FacultyService.deleteFaculty(id);
-
-    sendResponse<IFaculty>(res, {
+    sendResponse<IAdmin>(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: 'Faculty deleted successfully',
+      message: 'Admin updated successfully by id',
       data: result,
     });
   }
 );
 
-export const FacultyController = {
-  getAllFaculty,
-  getFacultyById,
-  updateFaculty,
-  deleteFaculty,
+const deleteAdmin = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const result = await AdminService.deleteAdmin(id);
+
+    sendResponse<IAdmin>(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Admin deleted successfully',
+      data: result,
+    });
+  }
+);
+
+export const AdminController = {
+  getAllAdmin,
+  getAdminById,
+  updateAdmin,
+  deleteAdmin,
 };

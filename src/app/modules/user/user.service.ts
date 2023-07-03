@@ -10,6 +10,8 @@ import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { Student } from '../student/student.model';
 import { IStudent } from '../student/student.interface';
+import { IAdmin } from '../admin/admin.interfcae';
+import { Admin } from '../admin/admin.model';
 
 const createStudent = async (
   student: IStudent,
@@ -124,7 +126,61 @@ const createFaculty = async (
   return newUserAllData;
 };
 
+const createAdmin = async (
+  admin: IAdmin,
+  user: IUser
+): Promise<IUser | null> => {
+  let newUserAllData: IUser | null = null;
+  // default password
+  if (!user.password) {
+    user.password = config.admin_pass as string;
+  }
+
+  if (!user?.role) {
+    user.role = 'admin';
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    const id = await UserUtils.generateAdminId();
+    user.id = id;
+    admin.id = id;
+    const newAdmin = await Admin.create([admin], { session });
+    if (!newAdmin.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to created admin');
+    }
+    user.admin = newAdmin[0]?._id;
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to created users');
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+    newUserAllData = newUser[0];
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  }
+
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id })
+      .populate({
+        path: 'admin',
+        populate: [{ path: 'managementDepartment' }],
+      })
+      .lean();
+  }
+
+  return newUserAllData;
+};
+
 export const UserService = {
   createStudent,
   createFaculty,
+  createAdmin,
 };
