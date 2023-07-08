@@ -12,6 +12,7 @@ export type IUser = {
   faculty?: Types.ObjectId | IFaculty;
   admin?: Types.ObjectId | IAdmin;
   status: boolean;
+  passwordChangeAt?: Date;
 };
 export type IUserGender = 'male' | 'female' | 'other';
 export type IUserBloodGroup =
