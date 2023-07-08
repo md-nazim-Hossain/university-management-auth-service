@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { IUser, UserModel } from './user.interface';
+import { IUser, IUserMethods, UserModel } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../../config/index';
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, Record<string, unknown>, IUserMethods>(
   {
     id: {
       type: String,
@@ -15,6 +17,11 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, 'password is required'],
+      select: false,
+    },
+    status: {
+      type: Boolean,
+      default: false,
     },
     student: {
       type: Schema.Types.ObjectId,
@@ -36,5 +43,28 @@ const userSchema = new Schema<IUser>(
     },
   }
 );
+
+userSchema.methods.isUserExist = async function (
+  id: string
+): Promise<Pick<IUser, 'id' | 'password' | 'status' | 'role'> | null> {
+  const user = await User.findOne(
+    { id },
+    { status: 1, id: 1, password: 1, role: 1 }
+  ).lean();
+
+  return user;
+};
+
+userSchema.methods.isPasswordMatch = async function (
+  givenPass: string,
+  savePassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(givenPass, savePassword);
+};
+
+userSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(this.password, Number(config.bycrypt_salt));
+  next();
+});
 
 export const User = model<IUser, UserModel>('User', userSchema);
